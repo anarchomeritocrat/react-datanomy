@@ -139,7 +139,7 @@ export const [
   CounterProvider, 
   useCounter,
   CounterContext
-// Probide store interface as generic argument to the createDatanomy
+// Provide store interface as generic argument to the createDatanomy
 ] = createDatanomy<TCounterStore>(initialState, reducers, scenarios)
 ```
 
