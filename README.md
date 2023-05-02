@@ -90,7 +90,7 @@ const scenarios = (getState, actions) => {
   },
 }
 
-// Call createDatanomy with above declarations and export it retuns:
+// Call createDatanomy with above declarations and export it returns:
 export const [ 
   CounterProvider, 
   useCounter,
