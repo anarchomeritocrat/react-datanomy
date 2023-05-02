@@ -280,6 +280,114 @@ class ClassComponent extends PureComponent {
 
 export default ClassComponent;
 ```
+### Summary: 
+
+
+
+
+```js
+import { CounterProvider } from './store/counterStore'
+import HookComponent from './components/HookComponent'
+import ConsumerComponent from './components/ConsumerComponent'
+import ClassComponent from './components/ClassComponent'
+
+function App() {
+  return (
+    <CounterProvider>
+      <div>
+        <HookComponent/>
+        <ConsumerComponent/>
+        <ClassComponent/>
+      </div>
+    </CounterProvider>
+  );
+}
+
+export default App;
+
+/////// - AND - /////////
+import { useEffect } from 'react'
+import { useCounter } from '../store/counterStore'
+
+function HookComponent() {
+  const [
+    { counter }, { increment, decrement }, { derivedAdd },
+  ] = useCounter()
+  
+  useEffect(() => { derivedAdd(15) }, [derivedAdd])
+  
+  return (
+    <div>
+      <div>{counter}</div>
+      <buttom onClick={increment}>+</button>
+      <buttom onClick={decrement}>-</button>
+    </div>
+  );
+}
+
+export default HookComponent;
+
+/////// - OR - /////////
+import { CounterContext } from '../store/counterStore'
+
+function ConsumerComponent() {
+  return (
+    <CounterContext.Consumer>
+    {
+      ([, { add, sub }, ]) => (<>
+        <buttom onClick={() => add(5)}>+5</button>
+        <buttom onClick={() => sub(5)}>-5</button>
+      </>)
+    }
+    </CounterContext.Consumer>
+  );
+}
+
+export default ConsumerComponent;
+
+/////// - OR - /////////
+import { PureComponent } from 'react'
+import { CounterContext } from '../store/counterStore'
+
+class ConsumerClassComponent extends PureComponent {
+  render() {
+    return (
+      <CounterContext.Consumer>
+      {
+        ([, { add, sub }, ]) => (<>
+          <buttom onClick={() => add(5)}>+5</button>
+          <buttom onClick={() => sub(5)}>-5</button>
+        </>)
+      }
+      </CounterContext.Consumer>
+    );
+  }
+}
+
+export default ConsumerClassComponent;
+
+/////// - OR - /////////
+import { PureComponent } from 'react'
+import { CounterContext } from '../store/counterStore'
+
+class ClassComponent extends PureComponent {
+  
+  static contextType = CounterContext;
+
+  render() {
+    
+    const [, { add, sub }, ] = this.context
+  
+    return (<>
+      <buttom onClick={() => add(10)}>+10</button>
+      <buttom onClick={() => sub(10)}>-10</button>
+    </>);
+  }
+}
+
+export default ClassComponent;
+```
+
 ## Tips and tricks
 
 ### About Single Source of Truth (SST)
